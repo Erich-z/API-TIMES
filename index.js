@@ -16,7 +16,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: { 
-        maxAge: 1000 * 60 * 15, 
+        maxAge: 1000 * 60 * 30, 
         httpOnly: true,
         secure: false 
     }
@@ -83,7 +83,7 @@ app.get("/", verificarAutenticacao, (req, res) => {
           <li class="nav-item"><a class="nav-link" href="/cadastrarTime">Cadastrar Time</a></li>
           <li class="nav-item"><a class="nav-link" href="/cadastrarJogador">Cadastrar Jogador</a></li>
           <li class="nav-item"><a class="nav-link" href="/listarTimes">Listar Times</a></li>
-          <li class="nav-item"><a class="nav-link" href="listar-jogadores.html">Listar Jogadores</a></li>
+          <li class="nav-item"><a class="nav-link" href="/listarJogadores">Listar Jogadores</a></li>
           <li class="nav-item"><span class="nav-link">${ultimoLogin?"Ultimo login: " + ultimoLogin:""}</span></li>
         </ul>
         <ul class="navbar-nav">
@@ -110,7 +110,7 @@ app.get("/", verificarAutenticacao, (req, res) => {
         <a href="/listarTimes" class="btn btn-outline-warning btn-lg w-100">📋 Ver Times</a>
       </div>
       <div class="col-md-3">
-        <a href="listar-jogadores.html" class="btn btn-outline-warning btn-lg w-100">📋 Ver Jogadores</a>
+        <a href="/listarJogadores" class="btn btn-outline-warning btn-lg w-100">📋 Ver Jogadores</a>
       </div>
     </div>
 
@@ -308,6 +308,9 @@ app.get("/cadastrarTime", verificarAutenticacao, (req, res) =>{
     .navbar-brand, .nav-link {
       color: white !important;
     }
+    .nav-link:hover {
+      text-decoration: underline;
+    }
     .form-container {
       margin-top: 80px;
     }
@@ -334,29 +337,25 @@ app.get("/cadastrarTime", verificarAutenticacao, (req, res) =>{
 </head>
 <body>
   <nav class="navbar navbar-expand-lg">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/">Sistema de Times</a>
-
-    
-    <button class="navbar-toggler text-white border border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarConteudo" aria-controls="navbarConteudo" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    
-    <div class="collapse navbar-collapse" id="navbarConteudo">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item"><a class="nav-link" href="cadastrar-time.html">Cadastrar Time</a></li>
-        <li class="nav-item"><a class="nav-link" href="cadastrar-jogador.html">Cadastrar Jogador</a></li>
-        <li class="nav-item"><a class="nav-link" href="listar-times.html">Listar Times</a></li>
-        <li class="nav-item"><a class="nav-link" href="listar-jogadores.html">Listar Jogadores</a></li>
-        <li class="nav-item"><span class="nav-link">${ultimoLogin?"Ultimo login: " + ultimoLogin:""}</span></li>
-      </ul>
-      <ul class="navbar-nav">
-        <li class="nav-item"><a class="nav-link text-warning" href="login.html">Logout</a></li>
-      </ul>
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Sistema de Times</a>
+      <button class="navbar-toggler text-white border border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarConteudo" aria-controls="navbarConteudo" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarConteudo">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a class="nav-link" href="/cadastrarTime">Cadastrar Time</a></li>
+          <li class="nav-item"><a class="nav-link" href="/cadastrarJogador">Cadastrar Jogador</a></li>
+          <li class="nav-item"><a class="nav-link" href="/listarTimes">Listar Times</a></li>
+          <li class="nav-item"><a class="nav-link" href="/listarJogadores">Listar Jogadores</a></li>
+          <li class="nav-item"><span class="nav-link">${ultimoLogin?"Ultimo login: " + ultimoLogin:""}</span></li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link text-warning" href="/logout">Logout</a></li>
+        </ul>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
   <div class="container form-container">
     <div class="card-custom">
@@ -420,6 +419,9 @@ app.post("/cadastrarTime", verificarAutenticacao, (req, res) => {
     .navbar-brand, .nav-link {
       color: white !important;
     }
+    .nav-link:hover {
+      text-decoration: underline;
+    }
     .form-container {
       margin-top: 80px;
     }
@@ -457,7 +459,7 @@ app.post("/cadastrarTime", verificarAutenticacao, (req, res) => {
           <li class="nav-item"><a class="nav-link" href="/cadastrarJogador">Cadastrar Jogador</a></li>
           <li class="nav-item"><a class="nav-link" href="/listarTimes">Listar Times</a></li>
           <li class="nav-item"><a class="nav-link" href="/listarJogadores">Listar Jogadores</a></li>
-          <li class="nav-item"><span class="nav-link">${ultimoLogin ? "Último login: " + ultimoLogin : ""}</span></li>
+          <li class="nav-item"><span class="nav-link">${ultimoLogin?"Ultimo login: " + ultimoLogin:""}</span></li>
         </ul>
         <ul class="navbar-nav">
           <li class="nav-item"><a class="nav-link text-warning" href="/logout">Logout</a></li>
@@ -532,12 +534,15 @@ app.get("/listarTimes", verificarAutenticacao, (req, res) => {
                     background: linear-gradient(to right, #1e3c72, #2a5298);
                     font-family: 'Poppins', sans-serif;
                 }
-                .navbar {
-                    background: #152642;
-                }
-                .navbar-brand, .nav-link {
+                  .navbar {
+                      background: #152642;
+                    }
+                  .navbar-brand, .nav-link {
                     color: white !important;
-                }
+                  }
+                  .nav-link:hover {
+                    text-decoration: underline;
+                  }
                 .table-container {
                     margin-top: 80px;
                 }
@@ -555,22 +560,25 @@ app.get("/listarTimes", verificarAutenticacao, (req, res) => {
         </head>
         <body>
             <nav class="navbar navbar-expand-lg">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="/">Sistema de Times</a>
-                    <div class="collapse navbar-collapse">
-                        <ul class="navbar-nav me-auto">
-                            <li class="nav-item"><a class="nav-link" href="cadastrar-time.html">Cadastrar Time</a></li>
-                            <li class="nav-item"><a class="nav-link" href="cadastrar-jogador.html">Cadastrar Jogador</a></li>
-                            <li class="nav-item"><a class="nav-link" href="listar-times.html">Listar Times</a></li>
-                            <li class="nav-item"><a class="nav-link" href="listar-jogadores.html">Listar Jogadores</a></li>
-                            <li class="nav-item"><span class="nav-link">${ultimoLogin ? "Ultimo login: " + ultimoLogin : ""}</span></li>
-                        </ul>
-                        <ul class="navbar-nav">
-                            <li class="nav-item"><a class="nav-link text-warning" href="login.html">Logout</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+            <div class="container-fluid">
+              <a class="navbar-brand" href="/">Sistema de Times</a>
+              <button class="navbar-toggler text-white border border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarConteudo" aria-controls="navbarConteudo" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarConteudo">
+                <ul class="navbar-nav me-auto">
+                  <li class="nav-item"><a class="nav-link" href="/cadastrarTime">Cadastrar Time</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/cadastrarJogador">Cadastrar Jogador</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/listarTimes">Listar Times</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/listarJogadores">Listar Jogadores</a></li>
+                  <li class="nav-item"><span class="nav-link">${ultimoLogin?"Ultimo login: " + ultimoLogin:""}</span></li>
+                </ul>
+                <ul class="navbar-nav">
+                  <li class="nav-item"><a class="nav-link text-warning" href="/logout">Logout</a></li>
+                </ul>
+              </div>
+            </div>
+          </nav>
 
             <div class="container table-container">
                 <h3 class="text-white">Times Cadastrados</h3>
@@ -587,7 +595,7 @@ app.get("/listarTimes", verificarAutenticacao, (req, res) => {
                     </tbody>
                 </table>
                 <div class="text-center mt-3">
-                    <a href="cadastrar-time.html" class="btn btn-custom">Cadastrar Novo Time</a>
+                    <a href="/cadastrarTime" class="btn btn-custom">Cadastrar Novo Time</a>
                 </div>
             </div>
         </body>
@@ -623,6 +631,9 @@ app.get("/cadastrarJogador", verificarAutenticacao, (req, res) => {
       .navbar-brand, .nav-link {
         color: white !important;
       }
+      .nav-link:hover {
+        text-decoration: underline;
+      }
       .form-container {
         margin-top: 80px;
       }
@@ -649,25 +660,25 @@ app.get("/cadastrarJogador", verificarAutenticacao, (req, res) => {
   </head>
   <body>
     <nav class="navbar navbar-expand-lg">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="/">Sistema de Times</a>
-        <button class="navbar-toggler text-white border border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarConteudo">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarConteudo">
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item"><a class="nav-link" href="/cadastrarTime">Cadastrar Time</a></li>
-            <li class="nav-item"><a class="nav-link" href="/cadastrarJogador">Cadastrar Jogador</a></li>
-            <li class="nav-item"><a class="nav-link" href="/listarTimes">Listar Times</a></li>
-            <li class="nav-item"><a class="nav-link" href="/listarJogadores">Listar Jogadores</a></li>
-            <li class="nav-item"><span class="nav-link">${ultimoLogin ? "Último login: " + ultimoLogin : ""}</span></li>
-          </ul>
-          <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link text-warning" href="/logout">Logout</a></li>
-          </ul>
-        </div>
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Sistema de Times</a>
+      <button class="navbar-toggler text-white border border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarConteudo" aria-controls="navbarConteudo" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarConteudo">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a class="nav-link" href="/cadastrarTime">Cadastrar Time</a></li>
+          <li class="nav-item"><a class="nav-link" href="/cadastrarJogador">Cadastrar Jogador</a></li>
+          <li class="nav-item"><a class="nav-link" href="/listarTimes">Listar Times</a></li>
+          <li class="nav-item"><a class="nav-link" href="/listarJogadores">Listar Jogadores</a></li>
+          <li class="nav-item"><span class="nav-link">${ultimoLogin?"Ultimo login: " + ultimoLogin:""}</span></li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link text-warning" href="/logout">Logout</a></li>
+        </ul>
       </div>
-    </nav>
+    </div>
+  </nav>
 
     <div class="container form-container">
       <div class="card-custom">
@@ -686,7 +697,7 @@ app.get("/cadastrarJogador", verificarAutenticacao, (req, res) => {
             <input type="date" class="form-control" name="nascimento">
           </div>
           <div class="mb-3">
-            <label class="form-label">Altura</label>
+            <label class="form-label">Altura(cm)</label>
             <input type="number" class="form-control" name="altura">
           </div>
           <div class="mb-3">
@@ -768,6 +779,9 @@ app.post("/cadastrarJogador", verificarAutenticacao, (req, res) => {
               .navbar-brand, .nav-link {
                 color: white !important;
               }
+              .nav-link:hover {
+                text-decoration: underline;
+              }
               .form-container {
                 margin-top: 80px;
               }
@@ -794,25 +808,25 @@ app.post("/cadastrarJogador", verificarAutenticacao, (req, res) => {
           </head>
           <body>
             <nav class="navbar navbar-expand-lg">
-              <div class="container-fluid">
-                <a class="navbar-brand" href="/">Sistema de Times</a>
-                <button class="navbar-toggler text-white border border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarConteudo">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarConteudo">
-                  <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="/cadastrarTime">Cadastrar Time</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/cadastrarJogador">Cadastrar Jogador</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/listarTimes">Listar Times</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/listarJogadores">Listar Jogadores</a></li>
-                    <li class="nav-item"><span class="nav-link">${ultimoLogin ? "Último login: " + ultimoLogin : ""}</span></li>
-                  </ul>
-                  <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link text-warning" href="/logout">Logout</a></li>
-                  </ul>
-                </div>
+            <div class="container-fluid">
+              <a class="navbar-brand" href="/">Sistema de Times</a>
+              <button class="navbar-toggler text-white border border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarConteudo" aria-controls="navbarConteudo" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarConteudo">
+                <ul class="navbar-nav me-auto">
+                  <li class="nav-item"><a class="nav-link" href="/cadastrarTime">Cadastrar Time</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/cadastrarJogador">Cadastrar Jogador</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/listarTimes">Listar Times</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/listarJogadores">Listar Jogadores</a></li>
+                  <li class="nav-item"><span class="nav-link">${ultimoLogin?"Ultimo login: " + ultimoLogin:""}</span></li>
+                </ul>
+                <ul class="navbar-nav">
+                  <li class="nav-item"><a class="nav-link text-warning" href="/logout">Logout</a></li>
+                </ul>
               </div>
-            </nav>
+            </div>
+          </nav>
 
             <div class="container form-container">
               <div class="card-custom">
@@ -831,7 +845,7 @@ app.post("/cadastrarJogador", verificarAutenticacao, (req, res) => {
                     <input type="date" class="form-control" name="nascimento" value="${nascimento || ''}">
                   </div>
                   <div class="mb-3">
-                    <label class="form-label">Altura</label>
+                    <label class="form-label">Altura(cm)</label>
                     <input type="number" class="form-control" name="altura" value="${altura || ''}">
                   </div>
                   <div class="mb-3">
@@ -907,6 +921,9 @@ app.post("/cadastrarJogador", verificarAutenticacao, (req, res) => {
         .navbar-brand, .nav-link {
           color: white !important;
         }
+        .nav-link:hover {
+          text-decoration: underline;
+        }
         .form-container {
           margin-top: 80px;
         }
@@ -935,7 +952,7 @@ app.post("/cadastrarJogador", verificarAutenticacao, (req, res) => {
       <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
           <a class="navbar-brand" href="/">Sistema de Times</a>
-          <button class="navbar-toggler text-white border border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarConteudo">
+          <button class="navbar-toggler text-white border border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarConteudo" aria-controls="navbarConteudo" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarConteudo">
@@ -944,7 +961,7 @@ app.post("/cadastrarJogador", verificarAutenticacao, (req, res) => {
               <li class="nav-item"><a class="nav-link" href="/cadastrarJogador">Cadastrar Jogador</a></li>
               <li class="nav-item"><a class="nav-link" href="/listarTimes">Listar Times</a></li>
               <li class="nav-item"><a class="nav-link" href="/listarJogadores">Listar Jogadores</a></li>
-              <li class="nav-item"><span class="nav-link">${ultimoLogin ? "Último login: " + ultimoLogin : ""}</span></li>
+              <li class="nav-item"><span class="nav-link">${ultimoLogin?"Ultimo login: " + ultimoLogin:""}</span></li>
             </ul>
             <ul class="navbar-nav">
               <li class="nav-item"><a class="nav-link text-warning" href="/logout">Logout</a></li>
@@ -973,7 +990,7 @@ app.post("/cadastrarJogador", verificarAutenticacao, (req, res) => {
               ${!nascimento ? '<span class="text-danger">Informe a data de nascimento</span>' : ''}
             </div>
             <div class="mb-3">
-              <label class="form-label">Altura</label>
+              <label class="form-label">Altura(cm)</label>
               <input type="number" class="form-control" name="altura" value="${altura || ''}">
               ${!altura ? '<span class="text-danger">Informe a altura</span>' : ''}
             </div>
@@ -1032,7 +1049,7 @@ app.get("/listarJogadores", verificarAutenticacao, (req, res) => {
             `;
         }
     } else {
-        tabela = `<tr><td colspan="3" class="text-center">Nenhum time cadastrado ainda.</td></tr>`;
+        tabela = `<tr><td colspan="7" class="text-center">Nenhum jogador cadastrado ainda.</td></tr>`;
     }
 
     res.send(`
@@ -1050,10 +1067,13 @@ app.get("/listarJogadores", verificarAutenticacao, (req, res) => {
                     font-family: 'Poppins', sans-serif;
                 }
                 .navbar {
-                    background: #152642;
+                  background: #152642;
                 }
                 .navbar-brand, .nav-link {
-                    color: white !important;
+                  color: white !important;
+                }
+                .nav-link:hover {
+                  text-decoration: underline;
                 }
                 .table-container {
                     margin-top: 80px;
@@ -1072,33 +1092,36 @@ app.get("/listarJogadores", verificarAutenticacao, (req, res) => {
         </head>
         <body>
             <nav class="navbar navbar-expand-lg">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="/">Sistema de Times</a>
-                    <div class="collapse navbar-collapse">
-                        <ul class="navbar-nav me-auto">
-                            <li class="nav-item"><a class="nav-link" href="cadastrar-time.html">Cadastrar Time</a></li>
-                            <li class="nav-item"><a class="nav-link" href="cadastrar-jogador.html">Cadastrar Jogador</a></li>
-                            <li class="nav-item"><a class="nav-link" href="listar-times.html">Listar Times</a></li>
-                            <li class="nav-item"><a class="nav-link" href="listar-jogadores.html">Listar Jogadores</a></li>
-                            <li class="nav-item"><span class="nav-link">${ultimoLogin ? "Ultimo login: " + ultimoLogin : ""}</span></li>
-                        </ul>
-                        <ul class="navbar-nav">
-                            <li class="nav-item"><a class="nav-link text-warning" href="login.html">Logout</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+            <div class="container-fluid">
+              <a class="navbar-brand" href="/">Sistema de Times</a>
+              <button class="navbar-toggler text-white border border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarConteudo" aria-controls="navbarConteudo" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarConteudo">
+                <ul class="navbar-nav me-auto">
+                  <li class="nav-item"><a class="nav-link" href="/cadastrarTime">Cadastrar Time</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/cadastrarJogador">Cadastrar Jogador</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/listarTimes">Listar Times</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/listarJogadores">Listar Jogadores</a></li>
+                  <li class="nav-item"><span class="nav-link">${ultimoLogin?"Ultimo login: " + ultimoLogin:""}</span></li>
+                </ul>
+                <ul class="navbar-nav">
+                  <li class="nav-item"><a class="nav-link text-warning" href="/logout">Logout</a></li>
+                </ul>
+              </div>
+            </div>
+          </nav>
 
             <div class="container table-container">
-                <h3 class="text-white">Times Cadastrados</h3>
+                <h3 class="text-white">Jogadores Cadastrados</h3>
                 <table class="table table-bordered table-hover">
                     <thead class="table-light">
                         <tr>
-                            <th>Nome jogador</th>na
+                            <th>Nome jogador</th>
                             <th>N° camisa</th>
                             <th>Data de nascimento</th>
                             <th>Altura em cm</th>
-                            <th>Genêro</th>
+                            <th>Gênero</th>
                             <th>Posição</th>
                             <th>Time</th>
                         </tr>
@@ -1108,7 +1131,7 @@ app.get("/listarJogadores", verificarAutenticacao, (req, res) => {
                     </tbody>
                 </table>
                 <div class="text-center mt-3">
-                    <a href="cadastrar-time.html" class="btn btn-custom">Cadastrar Novo Time</a>
+                    <a href="/cadastrarJogador" class="btn btn-custom">Cadastrar Jogador</a>
                 </div>
             </div>
         </body>
