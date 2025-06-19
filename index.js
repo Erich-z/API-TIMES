@@ -1117,6 +1117,7 @@ app.get("/listarJogadores", verificarAutenticacao, (req, res) => {
 
             <div class="container table-container">
                 <h3 class="text-white">Jogadores Cadastrados</h3>
+                <div class="table-responsive">
                 <table class="table table-bordered table-hover">
                     <thead class="table-light">
                         <tr>
@@ -1133,6 +1134,7 @@ app.get("/listarJogadores", verificarAutenticacao, (req, res) => {
                         ${tabela}
                     </tbody>
                 </table>
+                </div>
                 <div class="text-center mt-3">
                     <a href="/cadastrarJogador" class="btn btn-custom">Cadastrar Jogador</a>
                 </div>
