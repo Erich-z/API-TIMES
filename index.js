@@ -598,6 +598,7 @@ app.get("/listarTimes", verificarAutenticacao, (req, res) => {
                     <a href="/cadastrarTime" class="btn btn-custom">Cadastrar Novo Time</a>
                 </div>
             </div>
+             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         </body>
         </html>
     `);
@@ -877,6 +878,7 @@ app.post("/cadastrarJogador", verificarAutenticacao, (req, res) => {
                 </form>
               </div>
             </div>
+             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
           </body>
           </html>
           `;
@@ -1022,6 +1024,7 @@ app.post("/cadastrarJogador", verificarAutenticacao, (req, res) => {
           </form>
         </div>
       </div>
+       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
     </html>
     `;
@@ -1134,6 +1137,7 @@ app.get("/listarJogadores", verificarAutenticacao, (req, res) => {
                     <a href="/cadastrarJogador" class="btn btn-custom">Cadastrar Jogador</a>
                 </div>
             </div>
+             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         </body>
         </html>
     `);
